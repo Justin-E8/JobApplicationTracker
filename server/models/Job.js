@@ -27,7 +27,8 @@ const jobSchema = new mongoose.Schema({
     salary: {
         type: String,
     }
-
-    
 })
-    
+
+//Allows other files to use the job schema
+const Job = mongoose.model('Job', jobSchema);
+module.exports = Job;
