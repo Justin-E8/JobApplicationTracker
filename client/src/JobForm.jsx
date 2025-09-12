@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './JobForm.css';
 
 function JobForm() {
 
@@ -11,8 +12,8 @@ function JobForm() {
   const [dateApplied, setDateApplied] = useState('');
   const [salary, setSalary] = useState('');
 
-  //Function used to send the application to the backend
-  const handleSubmit = (e) => {
+  //Async function used to send the application to the backend
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newJob = {
@@ -24,8 +25,29 @@ function JobForm() {
       dateApplied,
       salary
     };
-
-    console.log('Submitting job:', newJob);
+    //Uses fetch and the POST route in the backend to save the application to the database
+    try {
+        const response = await fetch('http://localhost:3000/jobs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newJob)
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to save job.');
+        }
+    
+        const savedJob = await response.json();
+        console.log('Job saved:', savedJob);
+        alert('Job saved successfully!');
+    
+      } catch (error) {
+        console.error('Error:', error.message);
+        alert('There was an error saving the job.');
+      }
+    
 
   };
   //Job form that collects job information from the user
