@@ -1,7 +1,9 @@
 require('dotenv').config();
 
 
-const jobRoutes = require('./routes/jobs');//Imports router 
+const jobRoutes = require('./routes/jobs');//Imports router
+const authRoutes = require('./routes/auth');
+
 
 
 const express = require('express');
@@ -15,6 +17,8 @@ app.get('/', (req, res) => {
 
 
   app.use('/jobs', jobRoutes); //redirects to the jobs router
+  app.use('/api', authRoutes); //redirects to the authentication router
+
   
   const PORT = process.env.PORT || 3000;
 
