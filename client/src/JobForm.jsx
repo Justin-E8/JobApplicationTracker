@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './JobForm.css';
 
 function JobForm() {
 
@@ -11,6 +10,7 @@ function JobForm() {
   const [otherInfo, setOtherInfo] = useState('');
   const [dateApplied, setDateApplied] = useState('');
   const [salary, setSalary] = useState('');
+  const [message, setMessage] = useState('');
 
   //Async function used to send the application to the backend
   const handleSubmit = async (e) => {
@@ -35,13 +35,12 @@ function JobForm() {
           body: JSON.stringify(newJob)
         });
     
-        if (!response.ok) {
-          throw new Error('Failed to save job.');
-        }
-    
         const savedJob = await response.json();
-        console.log('Job saved:', savedJob);
-        alert('Job saved successfully!');
+        if (!response.ok) {
+          setMessage(data.message || 'Something went wrong');
+        }else{
+          setMessage('Adding job successful!');
+        }
     
       } catch (error) {
         console.error('Error:', error.message);
@@ -52,58 +51,74 @@ function JobForm() {
   };
   //Job form that collects job information from the user
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add a Job Application</h2>
-
-      <input
-        type="text"
-        placeholder="Company"
-        value={company}
-        onChange={(e) => setCompany(e.target.value)}
-        required
-      />
-
-      <input
-        type="text"
-        placeholder="Role"
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        required
-      />
-
-      <select value={status} onChange={(e) => setStatus(e.target.value)} required>
-        <option value="Applied">Applied</option>
-        <option value="Interview">Interview</option>
-        <option value="Offer">Offer</option>
-        <option value="Rejected">Rejected</option>
-      </select>
-
-      <textarea
-        placeholder="Job Description"
-        value={jobDescription}
-        onChange={(e) => setJobDescription(e.target.value)}
-      />
-
-      <input
-        type="date"
-        value={dateApplied}
-        onChange={(e) => setDateApplied(e.target.value)}
-      />
-
-      <input
-        type="text"
-        placeholder="Salary"
-        value={salary}
-        onChange={(e) => setSalary(e.target.value)}
-     />
-       <textarea
-        placeholder="Other Info"
-        value={otherInfo}
-        onChange={(e) => setOtherInfo(e.target.value)}
-      />
-
-      <button type="submit">Submit</button>
-    </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6 text-center">Job Application Form</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Company"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Status (e.g., Applied, Interview)"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Job Description"
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Other Info"
+            value={otherInfo}
+            onChange={(e) => setOtherInfo(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="date"
+            placeholder="Date Applied"
+            value={dateApplied}
+            onChange={(e) => setDateApplied(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Salary"
+            value={salary}
+            onChange={(e) => setSalary(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+          >
+            Submit Job
+          </button>
+        </form>
+        {message && (
+          <p className="mt-4 text-center text-green-600 font-medium">{message}</p>
+        )}
+        </div>
+     </div>
   );
 }
 
