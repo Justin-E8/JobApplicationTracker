@@ -37,7 +37,8 @@ router.post('/signup', async (req, res) => {
             password: hashedPassword,
           });
         await newUser.save();
-        res.status(201).json('User Created');
+        res.status(200).json({
+            message: 'Signup successful'});
     }catch (err){
         res.status(400).json({ error: err.message });
     }
@@ -56,7 +57,9 @@ router.post('/signup', async (req, res) => {
             if (!userMatch){
                 return res.status(401).json({message: 'Password is incorrect'});
             }
-            res.status(200).json({message: 'Login successful'});
+            res.status(200).json({
+                message: 'Login successful',
+                _id: user._id});
         }catch(err){
             console.error('Login error:', err);
             res.status(500).json({ message: 'Server error' });

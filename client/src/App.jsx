@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import SignupForm from './SignupForm';
+import LoginForm from './LoginForm';
 import JobForm from './JobForm';
+import Dashboard from './Dashboard';
 
 function App() {
   return (
@@ -10,11 +12,13 @@ function App() {
           <div className="text-center mt-20 space-y-4">
             <h1 className="text-3xl font-bold">Welcome to Job Tracker!</h1>
             <Link to="/signup" className="text-blue-500 underline">Sign Up</Link><br />
-            <Link to="/job-form" className="text-blue-500 underline">Add Job</Link>
+            <Link to="/login" className="text-blue-500 underline">Login</Link><br />
           </div>
         } />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="/job-form" element={<JobForm />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

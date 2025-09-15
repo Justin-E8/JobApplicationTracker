@@ -1,13 +1,19 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 export default function SignupForm(){
-    //Attributes thats value is determine by the users inputs
+    //Attributes thats value is determined by the users inputs
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-
+    const [showPassword, setShowPassword] = useState(false);
+    
+    //Used to redirect users to other pages
+    const navigate = useNavigate();
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -24,7 +30,6 @@ export default function SignupForm(){
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-
                 },
                 body: JSON.stringify(newSignup)
             });
@@ -33,6 +38,7 @@ export default function SignupForm(){
                 setMessage(userData.message || 'Something went wrong');
               } else {
                 setMessage('Signup successful!');
+                navigate('/login');
               }
             } catch (error) {
               console.error(error);
@@ -68,14 +74,23 @@ export default function SignupForm(){
                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              />
+              <div className="relative mb-3">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full p-2 border rounded pr-16"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-blue-600"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+                </div>
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition-colors"

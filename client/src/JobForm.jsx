@@ -15,7 +15,13 @@ function JobForm() {
   //Async function used to send the application to the backend
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userId = localStorage.getItem('userId');    
+    console.log("userId from localStorage:", userId); // <-- SEE THIS IN THE BROWSER CONSOLE!
 
+    if (!userId) {
+      alert("You must be logged in to submit a job.");
+      return;
+    }
     const newJob = {
       company,
       role,
@@ -23,7 +29,8 @@ function JobForm() {
       jobDescription,
       otherInfo,
       dateApplied,
-      salary
+      salary,
+      userId,
     };
     //Uses fetch and the POST route in the backend to save the application to the database
     try {
@@ -37,13 +44,14 @@ function JobForm() {
     
         const savedJob = await response.json();
         if (!response.ok) {
-          setMessage(data.message || 'Something went wrong');
+          setMessage(savedJob.message || 'Something went wrong');
         }else{
           setMessage('Adding job successful!');
         }
     
       } catch (error) {
-        console.error('Error:', error.message);
+        //console.error('Error:', error.message);
+        console.log("Sending job:", savedJob);
         alert('There was an error saving the job.');
       }
     
