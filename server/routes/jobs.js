@@ -52,5 +52,20 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
+// Route to update the status of a job application
+router.put('/:id', async (req, res) => {
+    try {
+      const updatedJob = await Job.findByIdAndUpdate(
+        req.params.id,
+        { status: req.body.status },
+        { new: true, runValidators: true }
+      );
+      res.json(updatedJob);
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ message: 'Error updating job status' });
+    }
+  });
+  
 
 module.exports = router;

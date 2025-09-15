@@ -79,14 +79,18 @@ function JobForm() {
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
-          <input
-            type="text"
-            placeholder="Status (e.g., Applied, Interview)"
+          <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border rounded mb-4"
             required
-          />
+          >
+            <option value="">Select status</option>
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Offer">Offer</option>
+            <option value="Rejected">Rejected</option>
+          </select>
           <input
             type="text"
             placeholder="Job Description"
