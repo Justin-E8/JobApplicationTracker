@@ -40,4 +40,17 @@ router.post('/', async (req, res) => {
     }
 });
 
+//Retrieves all the jobs for the specified user
+router.get('/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const jobs = await Job.find({ user: userId }); // Only get jobs for this user
+        res.status(200).json(jobs);
+    } catch (err) {
+        console.error('Error fetching jobs:', err);
+        res.status(500).json({ message: 'Server error fetching jobs' });
+    }
+});
+
+
 module.exports = router;

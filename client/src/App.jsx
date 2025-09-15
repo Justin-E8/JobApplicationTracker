@@ -3,6 +3,7 @@ import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
 import JobForm from './JobForm';
 import Dashboard from './Dashboard';
+import MyJobs from './MyJobs';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/job-form" element={<JobForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/my-jobs" element={<MyJobs />} />
       </Routes>
     </Router>
   );
